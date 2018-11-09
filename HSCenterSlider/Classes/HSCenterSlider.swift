@@ -28,6 +28,8 @@ public class HSCenterSlider: UIControl {
     @IBOutlet private weak var progressContainerView: UIView!
     @IBOutlet private weak var thumbImageView: UIImageView!
     
+    @IBOutlet private var centerIndicatorViews: [UIView]!
+    
     @IBOutlet internal weak var constaintThumbCenterX: NSLayoutConstraint!
     @IBOutlet internal weak var constrintLeftProgressWidth: NSLayoutConstraint!
     @IBOutlet internal weak var constrintRightProgressWidth: NSLayoutConstraint!
@@ -46,6 +48,7 @@ public class HSCenterSlider: UIControl {
     
     public var trackTintColor: UIColor = .black {
         didSet {
+            centerIndicatorViews.forEach({ $0.backgroundColor = trackTintColor })
             progressContainerView.backgroundColor = trackTintColor
         }
     }
