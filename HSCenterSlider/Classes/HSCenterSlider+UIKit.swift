@@ -9,20 +9,6 @@
 
 import Foundation
 
-//MARK:- Elevate view -> i.e. Shadow
-internal protocol MaterialView {
-    func elevate(elevation: Double)
-}
-extension UIView: MaterialView {
-    internal func elevate(elevation: Double){
-        self.layer.masksToBounds = false
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 0, height: elevation)
-        self.layer.shadowRadius = abs(CGFloat(elevation))
-        self.layer.shadowOpacity = 0.24
-    }
-}
-
 //MARK:- Touches Event + Geometry
 extension HSCenterSlider {
     internal var centerX: Double {
@@ -34,9 +20,6 @@ extension HSCenterSlider {
             return
         }
         self.isMovingThumb = self.hitTest(movingPoint, with: event) == self.thumb
-        UIView.animate(withDuration: 1.0) {
-            self.lblProgressValue.alpha = 1.0
-        }
     }
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let movingPoint = touches.first?.location(in: self) else{
@@ -50,8 +33,5 @@ extension HSCenterSlider {
     }
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.isMovingThumb = false
-        UIView.animate(withDuration: 1.0) {
-            self.lblProgressValue.alpha = 0.0
-        }
     }
 }

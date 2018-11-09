@@ -25,7 +25,8 @@ public class HSCenterSlider: UIControl {
     @IBOutlet internal weak var thumb: UIView!
     @IBOutlet private weak var leftProgressView: UIView!
     @IBOutlet private weak var rightProgressView: UIView!
-    @IBOutlet internal weak var lblProgressValue: UILabel!
+    @IBOutlet private weak var progressContainerView: UIView!
+    @IBOutlet private weak var thumbImageView: UIImageView!
     
     @IBOutlet internal weak var constaintThumbCenterX: NSLayoutConstraint!
     @IBOutlet internal weak var constrintLeftProgressWidth: NSLayoutConstraint!
@@ -43,11 +44,21 @@ public class HSCenterSlider: UIControl {
         }
     }
     
+    public var trackTintColor: UIColor = .black {
+        didSet {
+            progressContainerView.backgroundColor = trackTintColor
+        }
+    }
+    
+    public var thumbImage: UIImage? {
+        didSet {
+            thumbImageView.image = thumbImage
+        }
+    }
+    
     public var rangeValue: HSRange?
     public var value: Double = 0.0 {
         didSet{
-            
-            self.lblProgressValue.text = String.init(format: "%.0f", arguments: [self.value])
             if self.value < self.internalRightHalfRangeConverter!.range1.low {
                 self.setProgressOnUI(progressType: HSProgressType.left(progress: (value)))
             }else{
@@ -83,18 +94,17 @@ public class HSCenterSlider: UIControl {
         self.contentView.frame=self.bounds
         self.addSubview(self.contentView)
         
+        progressContainerView.layer.cornerRadius = 1
+        progressContainerView.layer.masksToBounds = true
+        
         self.backgroundColor = UIColor.clear
         self.contentView.backgroundColor = UIColor.clear
         
-        self.thumb.backgroundColor = UIColor.white
-        self.thumb.layer.cornerRadius = 30/2
-        self.thumb.layer.masksToBounds = true
-        self.thumb.elevate(elevation: 2.0)
+        self.thumb.backgroundColor = UIColor.clear
         
-        self.lblProgressValue.alpha = 0.0;
         self.leftProgressView.backgroundColor = tintColor
         self.rightProgressView.backgroundColor = tintColor
-        
+
         self.rangeValue = HSRange(low: -100, high: 100) //default Range for the slider
         self.value = 0; //default progress value
     }
